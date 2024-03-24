@@ -20,11 +20,11 @@ export default {
     };
   },
   async mounted() {
-    const res = this.$http({
-      path: '/users/find',
-      method: 'get',
-    })
-    console.log('res',res)
+    const res = await this.$http({
+      path: "/users/find",
+      method: "get",
+    });
+    console.log("res", res);
   },
 };
 </script>
