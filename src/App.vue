@@ -19,6 +19,16 @@ export default {
       message: "Hello Vue!",
     };
   },
+  mounted() {
+    this.$axios
+      .get("http://localhost:3001/users/find")
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  },
 };
 </script>
 
