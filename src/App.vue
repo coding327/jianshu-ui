@@ -19,15 +19,12 @@ export default {
       message: "Hello Vue!",
     };
   },
-  mounted() {
-    this.$axios
-      .get("http://localhost:3001/users/find")
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+  async mounted() {
+    const res = this.$http({
+      path: '/users/find',
+      method: 'get',
+    })
+    console.log('res',res)
   },
 };
 </script>
