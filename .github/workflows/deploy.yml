@@ -1,1 +1,40 @@
+name: deploy
 
+on:
+  push:
+    branches: [main] # main 分支有 push 时触发
+    paths-ignore: ["README.md"] # 忽略 README.md 文件的 push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 检出代码【下载代码】
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # 安装 Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+
+      # 安装依赖
+      - name: Install dependencies
+        run: npm install
+
+      # 打包
+      - name: Build
+        run: npm run build
+
+      # 部署到 GitHub Pages
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          branch: gh-pages # 部署到 gh-pages 分支
+          github_token: ${{ secrets.GITHUB_TOKEN }} # GitHub Token
+          publish_dir: ./dist # 部署的目录
+          user_name: ${{ github.event.head_commit.author.name }} # 提交者
+          user_email: ${{ github.event.head_commit.author.email }} # 提交者邮箱
+          commit_message: ${{ github.event.head_commit.message }} # 提交信息
