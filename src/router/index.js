@@ -88,7 +88,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
+  mode: 'hash', // 使用hash模式【github pages不支持history模式，刷新会404】
   base: process.env.BASE_URL,
   routes
 })
