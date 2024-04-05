@@ -50,6 +50,7 @@ import { PROJECT_NAME } from "@/project-config";
 export default {
   data() {
     return {
+      PROJECT_NAME,
       loginForm: {
         username: "",
         password: "",
