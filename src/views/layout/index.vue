@@ -5,8 +5,9 @@
       <div class="header-right">
         <span>网站首页</span>
         <span>头像</span>
-        <span>admin</span>
-        <span>退出</span>
+        <!-- <span>{{ $store.state.loginModule.userInfo.username }}</span> -->
+        <span>{{ userInfo.username }}</span>
+        <span @click="logout">退出</span>
       </div>
     </el-header>
     <el-container>
@@ -18,7 +19,8 @@
           active-text-color="#409EFF"
           style="border: 0"
           router
-          :default-active="$route.path"
+          unique-opened
+          :default-active="$route.path.replace(/\/$/, '')"
         >
           <!-- 个人中心【目录】 -->
           <el-submenu index="/user">
@@ -69,16 +71,22 @@
 </template>
 
 <script>
-import { RouterView } from 'vue-router'
+import { RouterView } from "vue-router";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Home",
+  components: {},
   data() {
     return {};
   },
-  components: {},
+  computed: {
+    ...mapState("loginModule", ["userInfo"]),
+  },
   mounted() {},
-  methods: {},
+  methods: {
+    ...mapActions("loginModule", ["logout"]),
+  },
 };
 </script>
 <style scoped>
@@ -97,5 +105,17 @@ export default {
 }
 .el-main {
   background-color: #e9ecf0;
+}
+.header-right span {
+  margin: 8px;
+}
+.header-right span:hover {
+  color: skyblue;
+}
+.header-right span:nth-child(3) {
+  font-weight: bold;
+}
+.header-right span:last-of-type {
+  cursor: pointer;
 }
 </style>

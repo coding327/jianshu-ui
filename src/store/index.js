@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import loginModule from './login/login'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {
+const store = new Vuex.Store({
+  state() {
+    return {
+      username: ''
+    }
   },
   getters: {
   },
@@ -13,5 +17,13 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
+    loginModule
   }
 })
+
+// vuex刷新数据丢失问题解决方法
+export function setupStore() {
+  store.dispatch('loginModule/loadLocalLogin')
+}
+
+export default store

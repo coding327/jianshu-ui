@@ -1,2 +1,12 @@
 export const BASE_URL = process.env.VUE_APP_BASE_URL
-export const TIME_OUT = 10000
+
+/**
+ * 请求配置
+ */
+export const HttpState = {
+  SUCCESS: 200,
+  ERROR: 400,
+  OVERDUE: 401,
+  TIMEOUT: 30000,
+  TYPE: 'SUCCESS'
+}

@@ -1,14 +1,22 @@
 import axios from "axios"
-import { BASE_URL, TIME_OUT } from './config'
+import { BASE_URL, HttpState } from './config'
+import localCache from '@/utils/cache'
+import { TOKEN_KEY } from '@/constants/cache'
+import store from "@/store"
+import { LOGIN_URL } from '@/project-config'
+import router from "@/router"
+import { Message } from 'element-ui'
 
 const instance = axios.create({
   baseURL: BASE_URL,
-  timeout: TIME_OUT
+  timeout: HttpState.TIMEOUT
 })
 
 // 请求拦截
 instance.interceptors.request.use(config => {
   // 请求拦截要处理的内容
+  localCache.getCache(TOKEN_KEY) && (config.headers
+    .Authorization = `Bearer ${localCache.getCache(TOKEN_KEY)}`)
   return config
 }, err => {
   console.error('请求失败', err)
@@ -17,7 +25,24 @@ instance.interceptors.request.use(config => {
 // 响应拦截
 instance.interceptors.response.use(res => {
   // 响应拦截要处理的内容
-  return res.data
+  const { data } = res
+  // 错误处理
+  if (data.code === HttpState.OVERDUE) {
+    // 401 token过期
+    store.dispatch('loginModule/resetTokenAndUserInfo')
+    router.replace(LOGIN_URL)
+    Message.error('登录已过期，请重新登录')
+    return Promise.reject(data)
+  }
+
+  if (data.code !== HttpState.SUCCESS) {
+    // 业务错误
+    Message.error(data.message)
+    return Promise.reject(data)
+  }
+
+  // 正常返回数据
+  return data.data
 }, err => {
   console.error('响应失败', err)
 })
