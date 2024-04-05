@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import { HOME_URL, LOGIN_URL, PROJECT_NAME } from '@/project-config'
+import { HOME_URL, LOGIN_URL, PROJECT_NAME } from '@/projectConfig'
 import localCache from '@/utils/cache'
 import { TOKEN_KEY } from '@/constants/cache'
-import NProgress from '@/project-config/nprogress'
+import NProgress from '@/projectConfig/nprogress'
 
 Vue.use(VueRouter)
 

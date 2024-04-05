@@ -4,7 +4,7 @@ import { USERINFO_KEY } from '@/constants/cache'
 import { getToken, setToken } from '@/utils/config'
 import md5 from "md5"
 import router from '@/router'
-import { HOME_URL, LOGIN_URL } from '@/project-config'
+import { HOME_URL, LOGIN_URL } from '@/projectConfig'
 import { Notification } from 'element-ui'
 import { getTimeState } from '@/utils'
 

@@ -45,7 +45,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import { PROJECT_NAME } from "@/project-config";
+import { PROJECT_NAME } from "@/projectConfig";
 
 export default {
   data() {

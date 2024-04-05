@@ -3,7 +3,7 @@ import { BASE_URL, HttpState } from './config'
 import localCache from '@/utils/cache'
 import { TOKEN_KEY } from '@/constants/cache'
 import store from "@/store"
-import { LOGIN_URL } from '@/project-config'
+import { LOGIN_URL } from '@/projectConfig'
 import router from "@/router"
 import { Message } from 'element-ui'
 
