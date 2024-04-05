@@ -2,40 +2,18 @@
   <div class="login">
     <el-card>
       <div class="login-title">简书后台管理系统</div>
-      <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules">
-        <el-form-item prop="username">
-          <el-input
-            ref="username"
-            v-model="loginForm.username"
-            placeholder="请输入用户名"
-          >
-            <template #prefix>
-              <i class="el-icon-user"></i>
-            </template>
-          </el-input>
+      <el-form>
+        <el-form-item>
+          <el-input placeholder="请输入用户名"></el-input>
         </el-form-item>
-        <el-form-item prop="password">
-          <el-input
-            ref="password"
-            v-model="loginForm.password"
-            type="password"
-            placeholder="请输入密码"
-            show-password
-            autocomplete="new-password"
-          >
-            <template #prefix>
-              <i class="el-icon-lock"></i>
-            </template>
-          </el-input>
+        <el-form-item>
+          <el-input type="password" placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item>
           <div class="login-btn">
-            <el-button
-              :loading="loading"
-              @click.native.prevent="handleLogin($refs.loginFormRef)"
-              type="primary"
-              >登录</el-button
-            >
+            还没有账号?点击注册
+            <el-switch v-model="isRegister"></el-switch>
+            <el-button type="primary">登录</el-button>
           </div>
         </el-form-item>
       </el-form>
@@ -44,47 +22,15 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
 export default {
   data() {
     return {
-      loginForm: {
-        username: "",
-        password: "",
-      },
-      loginRules: {
-        username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
-        ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-      },
-      loading: false,
+      isRegister: true,
     };
   },
   components: {},
-  mounted() {
-    if (this.loginForm.username === "") {
-      this.$refs.username.focus();
-    } else if (this.loginForm.password === "") {
-      this.$refs.password.focus();
-    }
-  },
-  methods: {
-    ...mapActions("loginModule", ["accountLoginAction"]),
-    handleLogin(formEl) {
-      if (!formEl) return;
-      formEl.validate(async (valid) => {
-        if (!valid) return;
-        this.loading = true;
-        try {
-          await this.accountLoginAction(this.loginForm);
-        } finally {
-          this.loading = false;
-        }
-      });
-    },
-  },
+  mounted() {},
+  methods: {},
 };
 </script>
 <style scoped>
