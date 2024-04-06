@@ -1,4 +1,4 @@
-import { accountLoginRequest, requestUserInfoById } from '@/api/login'
+import { accountLoginRequest, requestUserInfoById, updateUserInfoRequest } from '@/api/login'
 import localCache from '@/utils/cache'
 import { USERINFO_KEY } from '@/constants/cache'
 import { getToken, setToken } from '@/utils/config'
@@ -7,6 +7,7 @@ import router from '@/router'
 import { HOME_URL, LOGIN_URL } from '@/projectConfig'
 import { Notification } from 'element-ui'
 import { getTimeState } from '@/utils'
+import { update } from 'lodash'
 
 const loginModule = {
   namespaced: true,
@@ -48,6 +49,7 @@ const loginModule = {
 
       // 跳转到首页
       router.push(HOME_URL)
+      // 进入首页这里采用通知，不使用消息提示【注意:关闭接口里的消息提示】
       Notification({
         title: getTimeState(),
         message: "欢迎登录，简书后台管理系统",
@@ -55,16 +57,22 @@ const loginModule = {
         duration: 3000,
       })
     },
-    loadLocalLogin({ commit }) {
-      const token = getToken()
-      if (token) {
-        const userInfo = localCache.getCache(USERINFO_KEY)
-        userInfo && commit('changeUserInfo', userInfo)
-      }
-    },
+    // vuex刷新数据丢失问题解决方法【目前使用vuex-persistedstate插件】
+    // loadLocalLogin({ commit }) {
+    //   const token = getToken()
+    //   if (token) {
+    //     const userInfo = localCache.getCache(USERINFO_KEY)
+    //     userInfo && commit('changeUserInfo', userInfo)
+    //   }
+    // },
     logout({ commit }) {
       commit('resetTokenAndUserInfo')
       router.replace(LOGIN_URL)
+    },
+    async updateUserInfoAction({ commit }, payload) {
+      const result = await updateUserInfoRequest(payload)
+      commit('changeUserInfo', result)
+      localCache.setCache(USERINFO_KEY, result)
     }
   }
 }

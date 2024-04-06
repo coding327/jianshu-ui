@@ -4,7 +4,7 @@
       <div class="sys-title">简书后台管理系统</div>
       <div class="header-right">
         <span>网站首页</span>
-        <span>头像</span>
+        <img class="avatar" :src="userInfo.avatar" />
         <!-- <span>{{ $store.state.loginModule.userInfo.username }}</span> -->
         <span>{{ userInfo.username }}</span>
         <span @click="logout">退出</span>
@@ -117,5 +117,11 @@ export default {
 }
 .header-right span:last-of-type {
   cursor: pointer;
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  vertical-align: middle;
 }
 </style>

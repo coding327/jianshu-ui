@@ -36,9 +36,12 @@ instance.interceptors.response.use(res => {
 
   if (data.code !== HttpState.SUCCESS) {
     // 业务错误
-    Message.error(data.message)
+    Message.error(data.msg)
     return Promise.reject(data)
   }
+
+  // 成功消息提示
+  res.config.showMessage && Message.success(data.msg)
 
   // 正常返回数据
   return data.data
@@ -54,9 +57,12 @@ instance.interceptors.response.use(res => {
  * @param {*} option.path 请求路径
  * @param {*} option.params 请求参数
  * @param {*} option.data 请求数据
+ * @param {*} option.showSuccessMessage 默认弹出成功 | 错误 | 警告 消息提示【业务层->后端给我返回的code，错误 | 警告提示一定弹出，成功消息提示留给使用者自定义】
  * @returns
  */
-async function http(option = {}) {
+async function http(option = {
+  showSuccessMessage: true
+}) {
   let result = null
   if (option.method === 'get' || option.method === 'delete') {
     try {

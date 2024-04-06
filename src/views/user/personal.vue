@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-form label-width="80px">
-      <el-form-item label="头像">
+    <el-form ref="formRef" :model="formModel" label-width="80px">
+      <el-form-item prop="avatar" label="头像">
         <el-upload
           class="avatar-uploader"
           :action="action"
@@ -11,37 +11,58 @@
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         >
-          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <img v-if="formModel.avatar" :src="formModel.avatar" class="avatar" />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
-      <el-form-item label="用户名">
+      <el-form-item prop="username" label="用户名">
         <el-col :span="6">
-          <el-input placeholder="请输入用户名"></el-input>
+          <el-input
+            v-model="formModel.username"
+            disabled
+            placeholder="请输入用户名"
+          ></el-input>
         </el-col>
       </el-form-item>
-      <el-form-item label="性别">
-        <el-radio label="男">男</el-radio>
-        <el-radio label="女">女</el-radio>
-        <el-radio label="保密">保密</el-radio>
+      <el-form-item prop="sex" label="性别">
+        <el-radio v-model="formModel.sex" label="男">男</el-radio>
+        <el-radio v-model="formModel.sex" label="女">女</el-radio>
+        <el-radio v-model="formModel.sex" label="保密">保密</el-radio>
       </el-form-item>
-      <el-form-item label="个人简介">
+      <el-form-item prop="desc" label="个人简介">
         <el-col :span="6">
-          <el-input type="textarea" rows="3" placeholder="请填写您的个人简介"></el-input>
+          <el-input
+            v-model="formModel.desc"
+            type="textarea"
+            rows="3"
+            placeholder="请填写您的个人简介"
+          ></el-input>
         </el-col>
       </el-form-item>
-      <el-form-item label="手机号">
+      <el-form-item prop="phone" label="手机号">
         <el-col :span="6">
-          <el-input placeholder="请输入手机号"></el-input>
+          <el-input
+            v-model="formModel.phone"
+            placeholder="请输入手机号"
+          ></el-input>
         </el-col>
       </el-form-item>
-      <el-form-item label="电子邮箱">
+      <el-form-item prop="email" label="电子邮箱">
         <el-col :span="6">
-          <el-input placeholder="请输入电子邮箱"></el-input>
+          <el-input
+            v-model="formModel.email"
+            placeholder="请输入电子邮箱"
+          ></el-input>
         </el-col>
       </el-form-item>
       <el-form-item>
-        <el-button type="success" round>更 新</el-button>
+        <el-button
+          type="success"
+          round
+          @click="save($refs.formRef)"
+          :loading="loading"
+          >更 新</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
@@ -53,7 +74,16 @@ import { isDevMode, getToken } from "@/utils/config";
 export default {
   data() {
     return {
-      imageUrl: "",
+      formModel: {
+        _id: "",
+        avatar: "",
+        username: "",
+        sex: "",
+        desc: "",
+        phone: "",
+        email: "",
+      },
+      loading: false,
     };
   },
   computed: {
@@ -81,16 +111,25 @@ export default {
       return isJPG && isLt2M;
     },
     handleAvatarSuccess(res, file) {
-      // file.raw文件对象，这里生成临时图片地址进行预览
-      this.imageUrl = URL.createObjectURL(file.raw);
+      this.formModel.avatar = res.data.url;
     },
-    releaseImage() {
-      // 释放之前创建的URL
-      URL.revokeObjectURL(this.imageUrl);
+    save(formEl) {
+      if (!formEl) return;
+      formEl.validate(async (valid) => {
+        if (!valid) return;
+        this.loading = true;
+        try {
+          this.$store.dispatch("loginModule/updateUserInfoAction", this.formModel);
+        } finally {
+          this.loading = false;
+        }
+      });
     },
   },
-  beforeDestroy() {
-    this.releaseImage();
+  created() {
+    const { _id, avatar, username, sex, desc, phone, email } =
+      this.$store.state.loginModule.userInfo;
+    this.formModel = { _id, avatar, username, sex, desc, phone, email };
   },
 };
 </script>

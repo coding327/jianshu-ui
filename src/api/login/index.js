@@ -2,8 +2,9 @@ import http from "@/http"
 
 const api = {
   login: "/users/login",
+  userInfo: "/users/find",
   updatePassword: "/users/update/password",
-  userInfo: "/users/find"
+  updateUserInfo: "/users/update/personal",
 }
 
 export const accountLoginRequest = (data) => {
@@ -11,7 +12,10 @@ export const accountLoginRequest = (data) => {
     method: "post",
     path: api.login,
     data,
+    showSuccessMessage: false,
   })
 }
 
-export const requestUserInfoById = (id) => http({ method: 'get', path: `${api.userInfo}/${id}` })
+export const requestUserInfoById = (id) => http({ method: 'get', path: `${api.userInfo}/${id}`, showSuccessMessage: false })
+
+export const updateUserInfoRequest = (data) => http({ method: 'post', path: api.updateUserInfo, data })
