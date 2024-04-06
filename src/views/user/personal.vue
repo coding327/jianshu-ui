@@ -30,16 +30,14 @@ export default {
     },
     headers() {
       return {
-        authorization: getToken(),
+        Authorization: `Bearer ${getToken()}`,
       };
     },
   },
   methods: {
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-    },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
+      // 限制上传头像图片可以是 JPG | png 格式，且大小不能超过 2MB
+      const isJPG = file.type === "image/jpeg" || file.type === "image/png";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
@@ -50,18 +48,29 @@ export default {
       }
       return isJPG && isLt2M;
     },
+    handleAvatarSuccess(res, file) {
+      // file.raw文件对象，这里生成临时图片地址进行预览
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    releaseImage() {
+      // 释放之前创建的URL
+      URL.revokeObjectURL(this.imageUrl);
+    },
+  },
+  beforeDestroy() {
+    this.releaseImage();
   },
 };
 </script>
 <style scoped>
-.avatar-uploader .el-upload {
+:deep(.avatar-uploader .el-upload) {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
 }
-.avatar-uploader .el-upload:hover {
+:deep(.avatar-uploader .el-upload:hover) {
   border-color: #409eff;
 }
 .avatar-uploader-icon {

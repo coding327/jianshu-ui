@@ -22,6 +22,7 @@
             placeholder="请输入密码"
             show-password
             autocomplete="new-password"
+            @keyup.native.enter="handleLogin($refs.loginFormRef)"
           >
             <template #prefix>
               <i class="el-icon-lock"></i>

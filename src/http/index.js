@@ -1,7 +1,6 @@
 import axios from "axios"
 import { BASE_URL, HttpState } from './config'
-import localCache from '@/utils/cache'
-import { TOKEN_KEY } from '@/constants/cache'
+import { getToken } from '@/utils/config'
 import store from "@/store"
 import { LOGIN_URL } from '@/projectConfig'
 import router from "@/router"
@@ -15,8 +14,8 @@ const instance = axios.create({
 // 请求拦截
 instance.interceptors.request.use(config => {
   // 请求拦截要处理的内容
-  localCache.getCache(TOKEN_KEY) && (config.headers
-    .Authorization = `Bearer ${localCache.getCache(TOKEN_KEY)}`)
+  getToken() && (config.headers
+    .Authorization = `Bearer ${getToken()}`)
   return config
 }, err => {
   console.error('请求失败', err)
