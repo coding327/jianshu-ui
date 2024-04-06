@@ -1,17 +1,49 @@
 <template>
   <div>
-    <el-upload
-      class="avatar-uploader"
-      :action="action"
-      name="myfile"
-      :headers="headers"
-      :show-file-list="false"
-      :on-success="handleAvatarSuccess"
-      :before-upload="beforeAvatarUpload"
-    >
-      <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-    </el-upload>
+    <el-form label-width="80px">
+      <el-form-item label="头像">
+        <el-upload
+          class="avatar-uploader"
+          :action="action"
+          name="myfile"
+          :headers="headers"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
+        >
+          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-form-item>
+      <el-form-item label="用户名">
+        <el-col span="6">
+          <el-input placeholder="请输入用户名"></el-input>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="性别">
+        <el-radio label="男">男</el-radio>
+        <el-radio label="女">女</el-radio>
+        <el-radio label="保密">保密</el-radio>
+      </el-form-item>
+      <el-form-item label="个人简介">
+        <el-col span="6">
+          <el-input type="textarea" rows="3" placeholder="请填写您的个人简介"></el-input>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="手机号">
+        <el-col span="6">
+          <el-input placeholder="请输入手机号"></el-input>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="电子邮箱">
+        <el-col span="6">
+          <el-input placeholder="请输入电子邮箱"></el-input>
+        </el-col>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="success" round>更 新</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -76,14 +108,14 @@ export default {
 .avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
   text-align: center;
 }
 .avatar {
-  width: 178px;
-  height: 178px;
+  width: 100px;
+  height: 100px;
   display: block;
 }
 </style>
