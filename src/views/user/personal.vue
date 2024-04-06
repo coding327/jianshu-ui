@@ -16,7 +16,7 @@
         </el-upload>
       </el-form-item>
       <el-form-item label="用户名">
-        <el-col span="6">
+        <el-col :span="6">
           <el-input placeholder="请输入用户名"></el-input>
         </el-col>
       </el-form-item>
@@ -26,17 +26,17 @@
         <el-radio label="保密">保密</el-radio>
       </el-form-item>
       <el-form-item label="个人简介">
-        <el-col span="6">
+        <el-col :span="6">
           <el-input type="textarea" rows="3" placeholder="请填写您的个人简介"></el-input>
         </el-col>
       </el-form-item>
       <el-form-item label="手机号">
-        <el-col span="6">
+        <el-col :span="6">
           <el-input placeholder="请输入手机号"></el-input>
         </el-col>
       </el-form-item>
       <el-form-item label="电子邮箱">
-        <el-col span="6">
+        <el-col :span="6">
           <el-input placeholder="请输入电子邮箱"></el-input>
         </el-col>
       </el-form-item>

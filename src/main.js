@@ -16,4 +16,5 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-setupStore()
+// vuex刷新数据丢失问题解决方法【也可以使用vuex-persistedstate插件】
+// setupStore()
