@@ -6,7 +6,7 @@ class LocalCache {
   getCache(key) {
     const value = window.localStorage.getItem(key)
     // 有可能没有取到
-    if (value) {
+    if (+value) {
       return JSON.parse(value)
     }
   }

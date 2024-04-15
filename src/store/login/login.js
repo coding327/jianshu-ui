@@ -39,6 +39,7 @@ const loginModule = {
       // 1. 登录
       const loginResult = await accountLoginRequest({ ...payload, password: md5(payload.password) })
       const { _id, token } = loginResult
+      if (!(_id && token)) return
       commit('changeToken', token)
       setToken(token)
 

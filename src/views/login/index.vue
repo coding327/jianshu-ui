@@ -81,7 +81,10 @@ export default {
         if (!valid) return;
         this.loading = true;
         try {
-          await this.accountLoginAction(this.loginForm);
+          await this.accountLoginAction({
+            username: this.loginForm.username,
+            password: this.loginForm.password,
+          });
         } finally {
           this.loading = false;
         }
