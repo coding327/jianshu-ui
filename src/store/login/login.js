@@ -2,12 +2,10 @@ import { accountLoginRequest, requestUserInfoById, updateUserInfoRequest } from 
 import localCache from '@/utils/cache'
 import { USERINFO_KEY } from '@/constants/cache'
 import { getToken, setToken } from '@/utils/config'
-import md5 from "md5"
 import router from '@/router'
 import { HOME_URL, LOGIN_URL } from '@/projectConfig'
 import { Notification } from 'element-ui'
 import { getTimeState } from '@/utils'
-import { update } from 'lodash'
 
 const loginModule = {
   namespaced: true,
@@ -37,7 +35,7 @@ const loginModule = {
     // 非组件使用actions中的方法，需要借助store.dispatch('loginModule/accountLoginAction', payload)
     async accountLoginAction({ commit }, payload) {
       // 1. 登录
-      const loginResult = await accountLoginRequest({ ...payload, password: md5(payload.password) })
+      const loginResult = await accountLoginRequest({ ...payload, password: payload.password })
       const { _id, token } = loginResult
       if (!(_id && token)) return
       commit('changeToken', token)
