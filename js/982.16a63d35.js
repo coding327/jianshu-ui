@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkjianshu_ui"]=self["webpackChunkjianshu_ui"]||[]).push([[982],{7982:function(n,u,t){t.r(u),t.d(u,{default:function(){return l}});var e=function(){var n=this,u=n._self._c;return u("div",[n._v("编辑文章")])},s=[],r={data(){return{}},components:{},mounted(){},methods:{}},a=r,i=t(1656),c=(0,i.A)(a,e,s,!1,null,"c3427a82",null),l=c.exports}}]);
-//# sourceMappingURL=982.16a63d35.js.map

@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkjianshu_ui"]=self["webpackChunkjianshu_ui"]||[]).push([[277],{1277:function(n,u,t){t.r(u),t.d(u,{default:function(){return f}});var e=function(){var n=this,u=n._self._c;return u("div",[n._v("点赞管理")])},s=[],r={data(){return{}},components:{},mounted(){},methods:{}},i=r,a=t(1656),c=(0,a.A)(i,e,s,!1,null,"37bf3564",null),f=c.exports}}]);
+//# sourceMappingURL=277.2d5909cf.js.map
