@@ -4,11 +4,11 @@ module.exports = defineConfig({
   publicPath: process.env.VUE_APP_PUBLIC_PATH,
   devServer: {
     proxy: {
-      '/api': {
+      [process.env.VUE_APP_BASE_URL]: {
         target: process.env.VUE_APP_PROXY_URL,
         changeOrigin: true,
         pathRewrite: {
-          '^/api': ''
+          [`^${process.env.VUE_APP_BASE_URL}`]: ''
         }
       }
     }
