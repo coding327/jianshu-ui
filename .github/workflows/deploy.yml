@@ -38,3 +38,13 @@ jobs:
           user_name: ${{ github.event.head_commit.author.name }} # 提交者
           user_email: ${{ github.event.head_commit.author.email }} # 提交者邮箱
           commit_message: ${{ github.event.head_commit.message }} # 提交信息
+
+      - name: 部署到阿里云服务器
+        uses: cross-the-world/scp-pipeline@master
+        with:
+          host: ${{ secrets.ALY_USER_HOST }}
+          user: ${{ secrets.ALY_USER_NAME }}
+          pass: ${{ secrets.ALY_USER_PASS }}
+          connect_timeout: 10s
+          local: "./.deploy_git/*"
+          remote: /www/wwwroot/js.coding327.top
