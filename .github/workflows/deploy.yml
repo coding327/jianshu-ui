@@ -40,7 +40,9 @@ jobs:
 
       # 打包
       - name: Build
-        run: npm run build
+        run: |
+          npm run build
+          zip -r dist ./dist/**
 
       # 部署到 GitHub Pages
       - name: Deploy GitHub Pages
