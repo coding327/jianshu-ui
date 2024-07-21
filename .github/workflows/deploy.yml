@@ -69,5 +69,3 @@ jobs:
           ARGS: "-rlgoDzvc -i --delete"
           # 上传到服务器对应目录
           TARGET: "/www/wwwroot/js.coding327.top"
-          #
-          EXCLUDE: "/dist/, /node_modules/"
