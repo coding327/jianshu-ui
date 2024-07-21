@@ -65,8 +65,6 @@ jobs:
           REMOTE_USER: ${{ secrets.ALY_USER_NAME }}
           # 免密登录的秘钥
           SSH_PRIVATE_KEY: ${{ secrets.ALY_USER_SSH_PASS }}
-          # 先清空目标目录
-          ARGS: "-avzr --delete"
           # 你打包后产物的文件夹
           SOURCE: "dist/"
           # 上传到服务器对应目录
