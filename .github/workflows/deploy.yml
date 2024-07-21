@@ -16,12 +16,26 @@ jobs:
 
       # 安装 Node.js
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: "18.x"
+
+      # 为node_modules设置缓存
+      - name: Cache
+        # 缓存命中结果会存储在steps.[id].outputs.cache-hit里，该变量在继后的step中可读
+        id: cache-dependencies
+        uses: actions/cache@v3
+        with:
+          # 缓存文件目录的路径
+          path: |
+            **/node_modules
+          key: ${{runner.OS}}
 
       # 安装依赖
-      - name: Install dependencies
+      - name:
+          Installing dependencies
+          # 如果命中缓存，就不需要安装依赖，使用缓存即可
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: npm install
 
       # 打包
@@ -29,7 +43,7 @@ jobs:
         run: npm run build
 
       # 部署到 GitHub Pages
-      - name: Deploy
+      - name: Deploy GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           branch: gh-pages # 部署到 gh-pages 分支
@@ -39,12 +53,19 @@ jobs:
           user_email: ${{ github.event.head_commit.author.email }} # 提交者邮箱
           commit_message: ${{ github.event.head_commit.message }} # 提交信息
 
-      - name: 部署到阿里云服务器
-        uses: cross-the-world/scp-pipeline@master
-        with:
-          host: ${{ secrets.ALY_USER_HOST }}
-          user: ${{ secrets.ALY_USER_NAME }}
-          pass: ${{ secrets.ALY_USER_PASS }}
-          connect_timeout: 10s
-          local: "./.deploy_git/*"
-          remote: /www/wwwroot/js.coding327.top
+      # 打包上传到阿里云服务器
+      - name: Deploy 阿里云服务器
+        uses: easingthemes/ssh-deploy@v2.0.7
+        env:
+          # 服务器的公网IP
+          REMOTE_HOST: ${{ secrets.ALY_USER_HOST }}
+          # 服务器登录用户名
+          REMOTE_USER: ${{ secrets.ALY_USER_NAME }}
+          # 免密登录的秘钥
+          SSH_PRIVATE_KEY: ${{ secrets.ALY_USER_SSH_PASS }}
+          # 你打包后产物的文件夹
+          SOURCE: dist/
+          # 先清空目标目录
+          ARGS: -avzr --delete
+          # 上传到服务器目标目录
+          TARGET: /www/wwwroot/js.coding327.top
